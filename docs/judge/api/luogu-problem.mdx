@@ -12,7 +12,7 @@ import ApiSchema from '@theme/ApiSchema';
 
 洛谷的题库数据是不公开的，若希望 OpenApp 可以使用洛谷的题目数据进行评测，通过这个接口将代码发回洛谷完成。洛谷的公开题库（除 RemoteJudge 外）均支持此接口。
 
-这是异步请求，只会返回 Request ID。对于主动查询，请参阅[执行结果](async-result.mdx)；对于被动推送，执行结果关联的 WebSocket 通知频道为 `judge.result`。
+这是异步请求，只会返回 Request ID。对于主动查询，请参阅[执行结果](async-result.mdx)；对于被动推送，执行结果关联的 WebSocket 通知频道为 `judge.result`。结果需要及时查询，平台只会将结果保存 15 分钟。
 
 POST Body：
 
