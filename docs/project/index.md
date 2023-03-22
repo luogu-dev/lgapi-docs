@@ -9,14 +9,17 @@ pagination_next: null
 
 ## 评测系统集成
 
-:::note
+:::tip
 
-不是所有评测系统都在设计上支持远端评测，使用体验可能因系统而异。推荐使用原生支持多题库和远端评测的 [Hydro](hydro.md)。
+不是所有评测系统都在设计上支持远端评测，使用体验可能因系统而异。
+
+本平台更推荐使用原生支持多题库和远端评测的 [Hydro](hydro.md)，[Hydro](hydro.md) 还支持从现有系统迁移。
 
 :::
 
 - [Hydro](hydro.md)
 - [UniversalOJ](uoj.md)
+- ~~[HustOJ](hustoj.md)~~
 
 ## SDK 等
 

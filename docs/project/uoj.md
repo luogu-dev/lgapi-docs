@@ -1,5 +1,6 @@
 ---
 sidebar_label: UOJ
+sidebar_position: 2
 ---
 
 # 适用于 UniversalOJ 的 Remote Judge 模块
