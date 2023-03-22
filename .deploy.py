@@ -34,7 +34,7 @@ def main():
 
     for file in built_files:
         oss_key = prefix + file
-        if re.search(r'\.[0-9a-f]{8}\.(js|css)$', file) and oss_key in oss_file_set:
+        if re.search(r'([0-9a-f]{16,}|\.[0-9a-f]{8}\.(js|css)$)', file) and oss_key in oss_file_set:
             print(f'Skipping file {file} (hashed)')
             continue
 
