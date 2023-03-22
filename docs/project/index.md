@@ -19,7 +19,7 @@ pagination_next: null
 
 - [Hydro](hydro.md)
 - [UniversalOJ](uoj.md)
-- ~~[HustOJ](hustoj.md)~~
+- ~~[HUSTOJ](hustoj.md)~~
 
 ## SDK 等
 
