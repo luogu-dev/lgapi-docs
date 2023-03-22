@@ -1,0 +1,106 @@
+name: build
+
+on:
+  - push
+  - pull_request
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+          - name: checkout
+            uses: actions/checkout@v3
+
+          - name: install node.js
+            uses: actions/setup-node@v3
+            with:
+                node-version: 18
+
+          - uses: pnpm/action-setup@v2
+            name: install pnpm
+            id: pnpm-install
+            with:
+                version: 7
+                run_install: false
+
+          - name: get pnpm store
+            id: pnpm-cache
+            shell: bash
+            run: |
+                echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+          - name: set up pnpm cache
+            uses: actions/cache@v3
+            with:
+                path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+                key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                restore-keys: |
+                    ${{ runner.os }}-pnpm-store-
+
+          - name: install dependencies
+            run: pnpm install
+
+          - name: build
+            run: pnpm run build
+
+          - name: upload artifact
+            uses: actions/upload-artifact@v3
+            with:
+                name: help-site
+                path: build
+
+    has-secrets:
+        runs-on: ubuntu-latest
+        environment: publish
+        outputs:
+            exist: ${{ steps.checker.outputs.defined }}
+        steps:
+          - name: check if secrets exist
+            id: checker
+            shell: bash
+            env:
+                ALIOSS_AK: ${{ secrets.ALIOSS_AK }}
+                ALIOSS_SK: ${{ secrets.ALIOSS_SK }}
+            run: |
+                function check() {
+                    if [[ -z "${!1}" ]]; then
+                        echo $1 NOT found
+                        exit 0
+                    fi
+                }
+                check ALIOSS_AK
+                check ALIOSS_SK
+                # all checked
+                echo "defined=yes" >> $GITHUB_OUTPUT
+                echo secrets found 
+
+    deploy:
+        runs-on: ubuntu-latest
+        environment: publish
+        needs:
+          - has-secrets
+          - build
+        if: github.ref == 'refs/heads/master' && needs.has-secrets.outputs.exist == 'yes'
+        steps:
+          - name: checkout
+            uses: actions/checkout@v3
+
+          - name: setup python
+            uses: actions/setup-python@v4
+            with: { python-version: '3.10' }
+          - name: pip install
+            run: python3 -m pip install oss2
+
+          - name: download artifact
+            uses: actions/download-artifact@v3
+            with:
+                name: help-site
+                path: build
+
+          - name: deploy site
+            env:
+                ALIOSS_AK: ${{ secrets.ALIOSS_AK }}
+                ALIOSS_SK: ${{ secrets.ALIOSS_SK }}
+                ALIOSS_BUCKET: ${{ vars.ALIOSS_BUCKET }}
+                ALIOSS_ENDPOINT: ${{ vars.ALIOSS_ENDPOINT }}
+            run: python3 .deploy.py -p open build

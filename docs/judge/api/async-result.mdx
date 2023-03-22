@@ -1,0 +1,19 @@
+---
+sidebar_position: 114514
+hide_table_of_contents: true
+pagination_next: null
+---
+
+import ApiSchema from '@theme/ApiSchema';
+
+# 执行结果
+
+`GET /judge/result?id=<RequestId>`
+
+OpenApp 可以通过这个接口使用 Request ID 主动获得此前的评测结果。
+
+在评测尚未完成且没有任何结果产生的时候，该接口会返回 HTTP 状态 `204 No Content`。在已有部分结果产生，或评测已经完成时，该接口会以 HTTP 状态 `200 OK` 返回内容。
+
+评测能力的执行结果，无论是使用此 API 还是使用 HTTP callback 或 WebSocket 等消息通知渠道，其返回的对象结构都是一样的：
+
+<ApiSchema id="open" pointer="#/components/schemas/JudgeCallback" example />

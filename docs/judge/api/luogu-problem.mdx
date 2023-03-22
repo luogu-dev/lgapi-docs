@@ -1,0 +1,23 @@
+---
+sidebar_position: 1
+sidebar_label: 洛谷题库评测
+hide_table_of_contents: true
+---
+
+import ApiSchema from '@theme/ApiSchema';
+
+# 洛谷题库评测
+
+`POST /judge/problem`
+
+洛谷的题库数据是不公开的，若希望 OpenApp 可以使用洛谷的题目数据进行评测，通过这个接口将代码发回洛谷完成。洛谷的公开题库（除 RemoteJudge 外）均支持此接口。
+
+这是异步请求，只会返回 Request ID。对于主动查询，请参阅[执行结果](async-result.mdx)；对于被动推送，执行结果关联的 WebSocket 通知频道为 `judge.result`。
+
+POST Body：
+
+<ApiSchema id="open" pointer="#/components/schemas/JudgeProblem" example />
+
+Response Body:
+
+<ApiSchema id="open" pointer="#/components/schemas/AsyncResponseCommon" example />

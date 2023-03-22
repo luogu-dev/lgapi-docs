@@ -1,0 +1,275 @@
+openapi: 3.0.3
+info: ~
+
+components:
+    schemas:
+        JudgeProblem:
+            description: 使用洛谷题库评测代码
+            type: object
+            allOf:
+                - type: object
+                  properties:
+                      pid:
+                          type: string
+                          description: 题目 PID
+                          example: P1001
+                          required: true
+                - $ref: '#/components/schemas/JudgeRequestCommon'
+                - $ref: './_api.yaml#/components/schemas/AsyncRequestCommon'
+
+        JudgeRun:
+            description: 使用洛谷评测机运行代码
+            type: object
+            allOf:
+                - type: object
+                  properties:
+                      input:
+                          type: string
+                          maxLength: 7168
+                          required: true
+                          description: 标准输入内容
+                - $ref: '#/components/schemas/JudgeRequestCommon'
+                - $ref: './_api.yaml#/components/schemas/AsyncRequestCommon'
+
+        JudgeRecord:
+            description: 评测记录
+            type: object
+            properties:
+                compile:
+                    nullable: true
+                    allOf:
+                        - $ref: '#/components/schemas/CompileResult'
+                judge:
+                    description: 评测结果，如果为 null 则表示结果还没有生成。如果 status 为 Waiting 或 Judging，则评测还没完成。
+                    nullable: true
+                    type: object
+                    allOf:
+                        - $ref: '#/components/schemas/ScoringResult'
+                        - type: object
+                          properties:
+                              subtasks:
+                                  description: 子任务结果列表
+                                  type: array
+                                  items:
+                                      allOf:
+                                          - $ref: '#/components/schemas/ScoringResult'
+                                          - type: object
+                                            properties:
+                                                cases:
+                                                    description: 测试点结果列表
+                                                    type: array
+                                                    items:
+                                                        allOf:
+                                                            - $ref: '#/components/schemas/ScoringResult'
+                                                            - type: object
+                                                              properties:
+                                                                  signal:
+                                                                      description: 程序退出时的信号，非 0 一般为异常
+                                                                      type: integer
+                                                                  exitCode:
+                                                                      description: 程序退出时的返回值，非 0 一般为非正常结束
+                                                                      type: integer
+                                                                  description:
+                                                                      description: 对测试点结果的描述
+                                                                      type: string
+                                                                      nullable: true
+
+        RunResult:
+            description: 执行结果
+            type: object
+            properties:
+                output:
+                    nullable: true
+                    description: 标准输出内容
+                    type: string
+                result:
+                    nullable: true
+                    description: 执行信息，有此信息标识执行完成
+                    type: object
+                    properties:
+                        cpuTime: { type: integer }
+                        memory: { type: integer }
+                        exitCode: { type: integer }
+                        signal: { type: integer }
+                        excess: { type: integer, nullable: true }
+                compile:
+                    nullable: true
+                    allOf:
+                      - $ref: '#/components/schemas/CompileResult'
+
+        CompileResult:
+            description: 编译结果
+            type: object
+            properties:
+                success:
+                    description: 编译是否成功
+                    type: boolean
+                message:
+                    description: 编译器返回信息
+                    type: string
+                    example: |
+                        /tmp/compiler_y2u2icgr/src: 在函数‘void dfs(int, int, char, int)’中:
+                        /tmp/compiler_y2u2icgr/src:28:16: 警告：数组下标类型为‘char’ [-Wchar-subscripts]
+                            move_to(psw[wy]);
+                                        ^
+                opt2:
+                    description: 编译时是否打开 `O2`（或类似的）优化开关
+                    type: boolean
+
+        ScoringResult:
+            description: 计分结果，是评测结果、子任务结果、测试点结果的抽象。
+            type: object
+            properties:
+                id:
+                    type: integer
+                status:
+                    $ref: '#/components/schemas/JudgeStatus'
+                score:
+                    type: integer
+                    description: 得分
+                time:
+                    type: integer
+                    description: 运行时使用的时间（毫秒，ms）
+                memory:
+                    type: integer
+                    description: 运行时使用的空间（内存，千字节，KiB）
+
+        JudgeStatus:
+            type: integer
+            description: |
+                评测结果、子任务、测试点的状态。
+                - 0, Waiting, 任务等待执行
+                - 1, Judging, 评测中
+                - 2, Compile Error, 编译失败
+                - 3, Output Limit Exceeded, 输出超限
+                - 4, Memory Limit Exceeded, 内存超限
+                - 5, Time Limit Exceeded, 运行时间超限
+                - 6, Wrong Answer, 答案错误
+                - 7, Runtime Error, 运行时错误
+                - 11, Invalid, 结果非法（一般是内部错误等，可以反馈）
+                - 12, Accepted, 结果正确、评测通过
+                - 14, Overall Unaccepted, 评测不通过（评测结果、子任务中使用，根据计分方式返回的评测失败）
+
+        JudgeType:
+            description: 评测执行类型
+            type: string
+            enum:
+              - judge
+              # - run
+
+        JudgeCallback:
+            description: |
+                评测接口执行结果
+                
+                无论是主动请求结果 API 还是使用 HTTP callback 或 WebSocket 等消息通知渠道获取结果，其值均遵守此结构。
+            type: object
+            allOf:
+              - type: object
+                properties:
+                    type:
+                        $ref: '#/components/schemas/JudgeType'
+                    data:
+                        $ref: '#/components/schemas/JudgeRecord'
+              - $ref: '_api.yaml#/components/schemas/AsyncResultCommon'
+
+        JudgeRequestCommon:
+            type: object
+            properties:
+                lang:
+                    type: string
+                    description: 代码语言，见语言支持列表
+                    example: cxx/14/gcc
+                    required: true
+                o2:
+                    type: boolean
+                    description: |
+                        打开 `-O2`（或类似的）编译优化开关
+                        
+                        但不一定真的会开，受到题目限制，即使这里传入 false 也可能是打开的，反之亦然。
+                        
+                        到底有无使用 O2 编译优化需要查询编译结果中的返回。
+                    required: true
+                code:
+                    type: string
+                    description: 要评测的代码
+                    required: true
+                    example: |
+                        #include <stdio.h>
+                        int main() {
+                            int a,b;
+                            scanf("%d%d",&a,&b);
+                            printf("%d\n", a+b);
+                            return 0;
+                        }
+
+paths:
+    /problem:
+        post:
+            summary: 提交题库评测
+            description: |
+                提交代码，洛谷将使用洛谷题库测试数据和评测资源对代码的正确性进行评判。
+                
+                这是异步请求，执行结果关联的 WebSocket 通知频道为 `judge.result`。
+            tags: [ 评测 ]
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/JudgeProblem'
+            responses:
+                '200':
+                    description: 提交成功
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '_api.yaml#/components/schemas/AsyncResponseCommon'
+                '402':
+                    description: 额度不足，没有足够的配额来完成请求，需要充值
+
+    /run:
+        post:
+            summary: 提交题库评测
+            description: |
+                提交代码，使用洛谷评测机资源运行程序。
+                
+                这是异步请求，执行结果关联的 WebSocket 通知频道为 `judge.result`。
+            tags: [ 评测 ]
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/JudgeRun'
+            responses:
+                '200':
+                 description: 提交成功
+                 content:
+                     application/json:
+                         schema:
+                             $ref: '_api.yaml#/components/schemas/AsyncResponseCommon'
+                '402':
+                    description: 额度不足，没有足够的配额来完成请求，需要充值
+
+    /result:
+        get:
+            summary: 查询评测结果
+            description: |
+                使用提交评测时获得的 Request ID 查询评测结果。评测结果只会缓存 1 小时，如果使用轮询获取结果请及时查询。
+            tags: [ 评测 ]
+            parameters:
+                -
+                    name: id
+                    in: path
+                    description: Request ID, 于提交时获得
+                    required: true
+                    example: 1BwHdxEa4LTFnL619bxRwC
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: 评测已经完成或已有部分评测结果，返回评测结果
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/JudgeCallback'
+                '204':
+                    description: 评测尚未完成，还没有任何结果产生

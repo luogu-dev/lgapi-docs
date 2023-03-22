@@ -1,0 +1,50 @@
+---
+sidebar_position: 3
+hide_table_of_contents: true
+---
+
+import ApiSchema from '@theme/ApiSchema';
+
+# 调用格式
+
+针对 POST 类需要 HTTP body 的请求，平台以接受 JSON 为准。但在大部分情况，等价的 Form（包括 `form-data` 和 `x-www-form-urlencoded`）也是接受的，如下面两个请求：
+
+```
+POST /json-example
+Accept: application/json
+Content-Type: application/json
+
+{"a":"b","1":2}
+```
+
+```
+POST /form-example
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded 
+
+a=b&1=2
+```
+
+本平台的请求返回如无特殊说明，均为 JSON 格式，但仍应该带上 `Accept: application/json` 请求头。
+
+平台的返回值会在每个 API 的说明页面详细给出。但他们执行成功与否均会以 HTTP 状态表示，如：
+- `200 OK` 请求成功完成。
+- `204 No Content` 请求成功完成，且没有任何内容需要返回。
+- `400 Bad Request` 请求内容有误。
+- `401 Unauthorized` 需要鉴权。
+- `402 Payment Required` 余额不足，需要充值。
+- `403 Forbidden` 权限不足。
+- `404 Not Found` 资源未找到。
+- `405 Method Not Allowed` 资源未找到。
+
+具体请以 API 的说明页面为准。
+
+## 错误处理
+
+有些时候请求不能成功完成，对于 40x 一类错误，均会返回下面格式的错误信息：
+
+<ApiSchema id="open" pointer="#/components/schemas/GeneralErrorResponse" example />
+
+而当 `errorType` 为 `Lentille\SymfonyBundle\Exception\FormErrorException` 或 `errorData.lentilleFormError` 为 `1` 时，`errorData` 字段具有如下结构：
+
+<ApiSchema id="open" pointer="#/components/schemas/LentilleFormError" example />

@@ -1,0 +1,119 @@
+openapi: 3.0.3
+
+info:
+    title: 洛谷开放平台 API
+    description: 使用洛谷开放平台，实现云端评测等功能。
+    version: 1.0.0
+
+servers:
+    - url: 'https://open-v1.lgapi.cn'
+
+components:
+    securitySchemes:
+        api:
+            type: http
+            scheme: basic
+    schemas:
+        AsyncRequestCommon:
+            type: object
+            properties:
+                trackId:
+                    type: string
+                    maxLength: 64
+                    required: false
+                    description: 由 OpenApp 定义，这里的内容会原封不动地在结果中返回。
+
+        AsyncResponseCommon:
+            type: object
+            properties:
+                requestId:
+                    type: string
+                    description: Request ID, 用来查询请求结果
+                    example: 1BwHdxEa4LTFnL619bxRwC
+
+        AsyncResultCommon:
+            type: object
+            properties:
+                requestId:
+                    type: string
+                    description: 异步请求的 ID，在提交时返回给 OpenApp。
+                    example: 1BwHdxEa4LTFnL619bxRwC
+                trackId:
+                    type: string
+                    description: 在提交请求时填写，会原样返回。
+
+        GeneralErrorResponse:
+            type: object
+            properties:
+                errorCode:
+                    type: integer
+                    description: 错误代码，与 HTTP Status 相同
+                    example: 400
+                errorType:
+                    type: string
+                    description: 错误类型
+                    example: Lentille\SymfonyBundle\Exception\FormErrorException
+                errorMessage:
+                    type: integer
+                    description: 错误信息
+                    example: Form is not valid.
+                errorData:
+                    type: object
+                    description: 错误相关数据，根据 errorType 的不同而变化
+
+        LentilleFormError:
+            type: object
+            properties:
+                lentilleFormError:
+                    type: number
+                    enum:
+                        - 1
+                    description: 恒为 1，标识此为 LentilleFormError
+                    example: 1
+                submitted:
+                    type: boolean
+                    description: 表单提交是否成功
+                    example: true
+                valid:
+                    type: boolean
+                    description: 表单校验是否成功
+                    example: false
+                fields:
+                    type: array
+                    description: 表单出错的字段
+                    items:
+                        properties:
+                            name:
+                                type: string
+                                description: 出错字段名
+                                example: lang
+                            value:
+                                type: string
+                                description: 出错字段值
+                                example: cxx
+                            message:
+                                type: string
+                                description: 出错字段信息
+                                example: cxx is not a valid language
+
+
+        WebSocketQueryParam:
+            type: object
+            properties:
+                token:
+                    type: string
+                    description: OpenApp Token
+                    example: 01gt8s4bnbesna15e9f6wvk5pn:w1MmbjBCsDYjXpgS
+                channel:
+                    type: string
+                    description: 要订阅的频道列表，只有订阅了相应频道才会收到相应推送。多个频道以半角逗号分隔。
+                    example: judge.result,some-other-example-channel
+tags:
+    - name: 评测
+      description: 提交代码以使用洛谷题库评测
+
+paths:
+    /judge/problem:
+        $ref: './judge.yaml#/paths/~1problem'
+    /judge/result:
+        $ref: './judge.yaml#/paths/~1result'
