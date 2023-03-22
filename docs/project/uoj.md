@@ -14,8 +14,8 @@ sidebar_label: UOJ
 
 为了将现有的 UOJ 安装接入洛谷开放平台，您需要遵循以下步骤进行操作：
 
-1. 将 [renbaoshuo/UOJ-Luogu-RemoteJudge](https://github.com/renbaoshuo/UOJ-Luogu-RemoteJudge) 仓库中的相关文件下载到本地（[打包下载链接](https://github.com/renbaoshuo/UOJ-Luogu-RemoteJudge/archive/refs/heads/master.zip)，[国内加速镜像](https://git.m.ac/baoshuo/UOJ-Luogu-RemoteJudge/archive/master.zip)）。
-2. 按照 [安装教程](https://github.com/renbaoshuo/UOJ-Luogu-RemoteJudge/blob/master/INSTALLATION.md)（打不开？访问 [镜像页面](https://git.m.ac/baoshuo/UOJ-Luogu-RemoteJudge/src/branch/master/INSTALLATION.md)）中的步骤将洛谷开放平台集成进您的评测系统中。
+1. 将 [renbaoshuo/UOJ-Luogu-RemoteJudge](https://github.com/renbaoshuo/UOJ-Luogu-RemoteJudge) 仓库中的相关文件下载到本地（[打包下载链接](https://github.com/renbaoshuo/UOJ-Luogu-RemoteJudge/archive/refs/heads/master.zip)；打不开？[从镜像仓库下载](https://git.m.ac/baoshuo/UOJ-Luogu-RemoteJudge/archive/master.zip)）。
+2. 按照 [安装教程](https://github.com/renbaoshuo/UOJ-Luogu-RemoteJudge/blob/master/INSTALLATION.md) 中的步骤将洛谷开放平台集成进您的评测系统中（打不开？访问 [镜像页面](https://git.m.ac/baoshuo/UOJ-Luogu-RemoteJudge/src/branch/master/INSTALLATION.md)）。
 
 如果无法访问 GitHub，可以访问镜像仓库 [git.m.ac/baoshuo/UOJ-Luogu-RemoteJudge](https://git.m.ac/baoshuo/UOJ-Luogu-RemoteJudge)（[打包下载链接](https://git.m.ac/baoshuo/UOJ-Luogu-RemoteJudge/archive/master.zip)）。
 
