@@ -25,7 +25,7 @@ pagination_next: null
 |:-----------------------:|:------:|:------:|
 | [Hydro（推荐）](hydro.md) |   支持   |   支持   |
 |  [UniversalOJ](uoj.md)  |   支持   |   支持   |
-|   ［HUSTOJ](hustoj.md)   |  不支持  |   不支持  |
+|   [HUSTOJ](hustoj.md)   |  不支持  |   不支持  |
 
 ## SDK 等
 
