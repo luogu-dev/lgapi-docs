@@ -15,7 +15,7 @@ LANG=zh . <(curl https://hydro.ac/setup.sh)
 使 Hydro 接入洛谷开放平台，您需要进行以下操作：
 
 1. 使用 `hydrooj install @hydrooj/vjudge` 安装 vjudge 插件（如果之前已安装请跳过该步骤） 
-2. 使用 `hydrooj install https://cdn.luogu.com.cn/lgapi/hydro/hydroplugin-luogu-0.0.1.tgz` 安装题库导入工具。
+2. 使用 `hydrooj install https://cdn.luogu.com.cn/lgapi/hydro/hydroplugin-luogu-latest.tgz` 安装题库导入工具。
 3. 使用 `hydrooj cli luogu importProblem` 导入题库。
 4. 使用 `hydrooj cli luogu addAccount <token>` 设置账号。
 5. 重启 Hydro 进程（`pm2 restart hydrooj`）。
