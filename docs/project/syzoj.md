@@ -9,8 +9,8 @@ sidebar_position: 3
 
 如果您是 SYZOJ 的用户，您可以在后台管理界面的“其他操作”中验证您的版本是否支持洛谷开放平台的接入。如果您的版本较旧，您可以使用以下方法来更新您的系统：
 
-- 对于 Docker 快速安装用户，您可以在服务器上运行 `docker pull menci/syzoj-web`后重启服务以进行更新。
-- 对于手动安装用户，您可以在 `syzoj-web` 目录中运行 `git pull`后重启服务以进行更新。
+- 对于 Docker 快速安装用户，您可以在服务器上运行 `docker pull menci/syzoj-web` 后重启服务以进行更新。
+- 对于手动安装用户，您可以在 `syzoj-web` 目录中运行 `git pull` 后重启服务以进行更新。
 
 如果您使用了经过定制修改的 SYZOJ 版本，您可以选择自行升级到新版本，或者咨询洛谷开放平台，以获取协助进行相关接入的支持。
 
@@ -18,11 +18,11 @@ sidebar_position: 3
 
 1. 在“后台管理-配置文件”中配置 `luogu_openapi_token`，将您从开放平台申请到的 OpenApp Token 填入配置文件中并保存，如：
 
-   ```json
-   {
-     "luogu_openapi_token": "01gt8s4bnbesna15e9f6wvk5pn:w1MmbjBCsDYjXpgS"
-   }
-   ```
+```json
+{
+  "luogu_openapi_token": "01gt8s4bnbesna15e9f6wvk5pn:w1MmbjBCsDYjXpgS"
+}
+```
 
 2. 在“后台管理-其他操作”中点击“导入洛谷 VJudge 题目”按钮，一键导入所有洛谷开放平台的题目。
 
