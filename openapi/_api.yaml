@@ -111,9 +111,13 @@ components:
 tags:
     - name: 评测
       description: 提交代码以使用洛谷题库评测
+    - name: 查询
+      description: 查询开放平台账户状态
 
 paths:
     /judge/problem:
         $ref: './judge.yaml#/paths/~1problem'
     /judge/result:
         $ref: './judge.yaml#/paths/~1result'
+    /judge/quotaAvailable:
+        $ref: './judge.yaml#/paths/~1quotaAvailable'
