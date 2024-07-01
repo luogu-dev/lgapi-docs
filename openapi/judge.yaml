@@ -276,8 +276,8 @@ paths:
 
     /quotaAvailable:
         get:
-            summary: 查询账户计费点
-            description: 查询当前账户的计费点情况
+            summary: 查询账户可用计费点
+            description: 查询当前账户的可用计费点情况
             tags: [ 查询 ]
             responses:
                 '200':
@@ -289,7 +289,7 @@ paths:
                                 properties:
                                     quotas:
                                         type: array
-                                        description: 计费点列表
+                                        description: 可用计费点列表
                                         items:
                                             type: object
                                             properties:
