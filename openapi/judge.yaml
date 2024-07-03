@@ -278,7 +278,7 @@ paths:
         get:
             summary: 查询账户评测可用计费点
             description: 查询当前账户的评测可用计费点情况
-            tags: [ 查询 ]
+            tags: [ 查询, 评测 ]
             responses:
                 '200':
                     description: 查询成功
