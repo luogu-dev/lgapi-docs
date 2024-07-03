@@ -273,3 +273,54 @@ paths:
                                 $ref: '#/components/schemas/JudgeCallback'
                 '204':
                     description: 评测尚未完成，还没有任何结果产生
+
+    /quotaAvailable:
+        get:
+            summary: 查询账户评测可用计费点
+            description: 查询当前账户的评测可用计费点情况
+            tags: [ 查询, 评测 ]
+            responses:
+                '200':
+                    description: 查询成功
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    quotas:
+                                        type: array
+                                        description: 可用计费点列表
+                                        items:
+                                            type: object
+                                            properties:
+                                                availablePoints:
+                                                    type: integer
+                                                    description: 可用计费点
+                                                    example: 30000
+                                                createTime:
+                                                    type: integer
+                                                    description: 计费点创建时间
+                                                    format: int64
+                                                    example: 1697620471
+                                                validAfter:
+                                                    type: integer
+                                                    description: 计费点生效时间
+                                                    format: int64
+                                                    example: 1713542400
+                                                expireTime:
+                                                    type: integer
+                                                    description: 计费点过期时间
+                                                    format: int64
+                                                    example: 1721491199
+                                                points:
+                                                    type: object
+                                                    description: 计费套餐详情
+                                                    properties:
+                                                        max:
+                                                            type: integer
+                                                            description: 套餐最大计费点
+                                                            example: 30000
+                                                        used:
+                                                            type: integer
+                                                            description: 已使用计费点
+                                                            example: 0
