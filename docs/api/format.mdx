@@ -13,6 +13,7 @@ import ApiSchema from '@theme/ApiSchema';
 POST /json-example
 Accept: application/json
 Content-Type: application/json
+User-Agent: my-new-app/1.0
 
 {"a":"b","1":2}
 ```
@@ -20,12 +21,15 @@ Content-Type: application/json
 ```
 POST /form-example
 Accept: application/json
-Content-Type: application/x-www-form-urlencoded 
+Content-Type: application/x-www-form-urlencoded
+User-Agent: my-new-app/1.0
 
 a=b&1=2
 ```
 
 本平台的请求返回如无特殊说明，均为 JSON 格式，但仍应该带上 `Accept: application/json` 请求头。
+
+为了在调试和查错时更加方便快捷，我们强烈建议应用开发方使用自己的独特 `User-Agent` 标识，例如上面例子中的 `my-new-app/1.0`。
 
 平台的返回值会在每个 API 的说明页面详细给出。但他们执行成功与否均会以 HTTP 状态表示，如：
 - `200 OK` 请求成功完成。
