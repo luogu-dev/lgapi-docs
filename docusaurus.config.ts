@@ -1,6 +1,10 @@
-// @ts-check
+import type { Config } from '@docusaurus/types';
+import type * as Preset from '@docusaurus/preset-classic';
+import { themes as PrismThemes } from 'prism-react-renderer';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
-const config = {
+export default {
     title: '洛谷开放平台文档',
     favicon: 'img/favicon.ico',
 
@@ -12,7 +16,15 @@ const config = {
 
     i18n: {
         defaultLocale: 'zh-Hans',
-        locales: ['zh-Hans'],
+        locales: ['zh-Hans']
+    },
+
+    markdown: {
+        mdx1Compat: {
+            comments: false,
+            admonitions: false,
+            headingIds: true /* until they provide a new syntax */
+        }
     },
 
     presets: [
@@ -20,15 +32,28 @@ const config = {
             blog: false,
             pages: false,
             docs: {
-                routeBasePath: '/'
+                sidebarPath: './sidebars.ts',
+                routeBasePath: '/',
+                remarkPlugins: [remarkMath],
+                rehypePlugins: [rehypeKatex]
+            },
+            theme: {
+                customCss: './src/style.css'
             }
-        }],
-        ['redocusaurus', {
+        } satisfies Preset.Options],
+        /*['redocusaurus', {
             specs: [
                 { id: 'open', spec: './openapi/_api.yaml', route: '/openapi' }
             ]
-        }]
+        } satisfies Preset.Options]*/ // TODO: replacement
     ],
+
+    stylesheets: [{
+        href: 'https://cdn.luogu.com.cn/assets/katex:0.16.7/katex.min.css',
+        type: 'text/css',
+        integrity: 'sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI',
+        crossorigin: 'anonymous',
+    }],
 
     themeConfig: {
         navbar: {
@@ -62,10 +87,8 @@ const config = {
             `
         },
         prism: {
-            theme: require('prism-react-renderer/themes/github'),
-            darkTheme: require('prism-react-renderer/themes/dracula')
+            theme: PrismThemes.github,
+            darkTheme: PrismThemes.dracula
         }
-    },
-};
-
-module.exports = config;
+    } satisfies Preset.ThemeConfig
+} satisfies Config;
