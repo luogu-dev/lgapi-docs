@@ -10,11 +10,11 @@ sidebar_position: 3
 
 评测环境中定义环境变量 `ONLINE_JUDGE=luogu`，若编译器支持也会带上此常量或宏，可据此判断是否在评测环境。
 
-评测机更新时间：2021-12-01，nixpkgs commit hash `57be0c5d9650a5c3970439ba7a1f4a017cd98cc0`。
+评测机更新时间：2026-10-13，查看 [luogu-dev/judge-env](https://github.com/luogu-dev/judge-env)。
 
 ## C/C++ 家族
 
-GCC 版本当前为 11.2.0。
+GCC 版本当前为 15.3.0。
 
 所有 GCC 编译时均会带上 `-fPIC -fno-asm -lm -march=native` 参数。
 
@@ -32,6 +32,7 @@ GCC 版本当前为 11.2.0。
 | ISO C++14 (GCC) | `cxx/14/gcc` |
 | ISO C++17 (GCC) | `cxx/17/gcc` |
 | ISO C++20 (GCC) | `cxx/20/gcc` |
+| ISO C++23 (GCC) | `cxx/23/gcc` |
 
 另外，对于 NOI 系列的参赛环境，提供以下专门的编译类型：
 
@@ -52,7 +53,7 @@ Python 2 已于 2020 年被官方宣布寿终正寝，因此平台已不再提�
 
 ## Pascal
 
-Pascal 使用 Free Pascal 编译器，当前版本为 3.2.0。
+Pascal 使用 Free Pascal 编译器，当前版本为 3.2.2。
 
 | 类型     | 标识符          |
 |--------|--------------|
@@ -60,7 +61,7 @@ Pascal 使用 Free Pascal 编译器，当前版本为 3.2.0。
 
 ## Rust
 
-Rust 提供 rustc 一种编译器，并使用 nightly 版本、Rust edition 为 2021。
+Rust 提供 rustc 一种编译器，并使用 nightly 版本、Rust edition 为 2024。
 
 | 类型                   | 标识符          |
 |----------------------|--------------|
@@ -112,13 +113,14 @@ JavaScript 提供 Node.js 一种解释器。
 
 Java 使用 OpenJDK 编译。
 
-| 类型     | 标识符      |
-|--------|----------|
-| Java 8 | `java/8` |
+| 类型      | 标识符       |
+|---------|-----------|
+| Java 8  | `java/8`  |
+| Java 21 | `java/21` |
 
 ## Kotlin
 
-Kotlin 语言提供 JVM 一种编译目标，且 JVM 版本为 1.8（会随着评测机更新）。
+Kotlin 语言提供 JVM 一种编译目标，且 JVM 版本为 21（会随着评测机更新）。
 
 | 类型         | 标识符          |
 |------------|--------------|
@@ -126,7 +128,7 @@ Kotlin 语言提供 JVM 一种编译目标，且 JVM 版本为 1.8（会随着�
 
 ## Scala
 
-Scala 编译目标版本为 1.8（会随着评测机更新）。
+Scala 编译目标版本为 21（会随着评测机更新）。
 
 | 类型    | 标识符     |
 |-------|---------|
