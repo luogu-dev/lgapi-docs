@@ -1,5 +1,6 @@
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import type * as Redocusaurus from 'redocusaurus';
 import { themes as PrismThemes } from 'prism-react-renderer';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -12,7 +13,6 @@ export default {
     baseUrl: '/open/',
 
     onBrokenLinks: 'throw',
-    onBrokenMarkdownLinks: 'warn',
 
     i18n: {
         defaultLocale: 'zh-Hans',
@@ -20,6 +20,9 @@ export default {
     },
 
     markdown: {
+        hooks: {
+            onBrokenMarkdownLinks: 'warn'
+        },
         mdx1Compat: {
             comments: false,
             admonitions: false,
@@ -36,16 +39,13 @@ export default {
                 routeBasePath: '/',
                 remarkPlugins: [remarkMath],
                 rehypePlugins: [rehypeKatex]
-            },
-            theme: {
-                customCss: './src/style.css'
             }
         } satisfies Preset.Options],
-        /*['redocusaurus', {
+        ['redocusaurus', {
             specs: [
                 { id: 'open', spec: './openapi/_api.yaml', route: '/openapi' }
             ]
-        } satisfies Preset.Options]*/ // TODO: replacement
+        } satisfies Redocusaurus.PresetOptions]
     ],
 
     stylesheets: [{
