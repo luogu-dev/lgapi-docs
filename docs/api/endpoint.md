@@ -5,7 +5,7 @@ pagination_prev: null
 
 # API 端点
 
-:::caution 注意
+:::caution[注意]
 
 洛谷开放平台的所有端点都使用了 TLS 为应用层加密，保障 API 调用和内容的安全。
 

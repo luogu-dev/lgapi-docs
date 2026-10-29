@@ -18,7 +18,7 @@ GCC 版本当前为 15.3.0。
 
 所有 GCC 编译时均会带上 `-fPIC -fno-asm -lm -march=native` 参数。
 
-:::caution 注意
+:::caution[注意]
 
 为了比赛等情况下的公平，在 C/C++ 代码的编译中，如果出现了通过 pragma 和 attribute 打开优化开关的行为是会导致编译失败的，详见[公告贴](https://www.luogu.com.cn/discuss/259685)。不限制使用评测机 CPU 支持的指令集。
 
