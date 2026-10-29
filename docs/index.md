@@ -3,7 +3,6 @@ sidebar_label: 平台介绍/Introduction
 sidebar_position: 1
 breadcrumbs: false
 hide_title: true
-unlisted: true
 hide_table_of_contents: true
 pagination_prev: null
 pagination_next: null
