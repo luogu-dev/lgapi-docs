@@ -8,7 +8,7 @@ import ApiSchema from '@theme/ApiSchema';
 
 对于异步请求，平台提供两种消息推送方案：WebSocket 模式和 HTTP callback 模式，OpenApp 可以自行在控制台配置。无论选择哪种模式获得的数据都是一致的。对于公网可以访问的 OpenApp，我们推荐使用 HTTP callback 模式，否则建议使用 WebSocket 模式。
 
-:::note 什么是异步
+:::note[什么是异步]
 
 异步区别于同步，在调用一个 API 时，异步的请求尽管是成功的，但是只能拿到一个 ID，真正的结果不会立刻返回。
 
